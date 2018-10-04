@@ -1,94 +1,98 @@
+Atención: este material no es creación de [luiscardozo](https://github.com/luiscardozo).
+Es simplemente una traducción del trabajo [os-tutorial de cfenollosa](https://github.com/cfenollosa/os-tutorial).
+Tal vez algunos conceptos no todos entiendan en español, por lo que pondré entre paréntesis el concepto en inglés.
+
 os-tutorial
 ===========
 
-How to create an OS from scratch!
+Cómo crear un Sistema Operativo desde cero!
 
-I have always wanted to learn how to make an OS from scratch. In college I was taught
-how to implement advanced features (pagination, semaphores, memory management, etc)
-but:
+Siempre he querido aprender cómo hacer un Sistema Operativo desde cero. En la universidad me
+enseñaron cómo implementar características avanzadas (paginación, semáforos, administración
+de memoria, etc), pero:
 
-- I never got to start from my own boot sector
-- College is hard so I don't remember most of it.
-- I'm fed up with people who think that reading an already existing kernel, even if small, is 
-a good idea to learn operating systems.
+- Nunca pude iniciar desde mi propio sector de arranque.
+- La universidad es tan difícil, por lo que no recuerdo la mayoría de lo que estudié.
+- Estoy harto de la gente que piensa que leer el código de un núcleo (kernel) existente, aunque sea pequeño,
+es una buena idea para aprender sistemas operativos.
 
-Inspired by [this document](http://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
-and the [OSDev wiki](http://wiki.osdev.org/), I'll try to make short step-by-step READMEs and
-code samples for anybody to follow. Honestly, this tutorial is basically the first document but
-split into smaller pieces and without the theory.
+Inspirado por [este documento](http://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
+y el [wiki OSDev](http://wiki.osdev.org/), intentaré hacer archivos README (LÉAME) cortos y que vayan
+paso a paso, así como ejemplos de código que cualquiera pueda entender.
+Honestamente, este tutorial es básicamente el primer documento pero dividido en piezas más pequeñas y sin la teoría.
 
-Updated: more sources: [the little book about OS development](https://littleosbook.github.io),
+Actualización: más fuentes: [the little book about OS development](https://littleosbook.github.io),
 [JamesM's kernel development tutorials](https://web.archive.org/web/20160412174753/http://www.jamesmolloy.co.uk/tutorial_html/index.html)
 
 
-Features
---------
+Características
+---------------
 
-- This course is a code tutorial aimed at people who are comfortable with low level computing. For example,
-programmers who have curiosity on how an OS works but don't have the time or willpower to start reading the Linux kernel
-top to bottom.
-- There is little theory. Yes, this is a feature. Google is your theory lecturer. Once you pass college, 
-excessive theory is worse than no theory because it makes things seem more difficult than they really are.
-- The lessons are tiny and may take 5-15 minutes to complete. Trust me and trust yourself. You can do it!
+- Este curso es un tutorial de código dirigido a personas que se sienten confortables con computación de bajo nivel.
+Por ejemplo, programadores que tienen curisidad sobre cómo funciona un Sistema Operativo pero no tienen el tiempo o
+la fuerza de voluntad para empezar a leer el núcleo de Linux de arriba a abajo.
+- Hay poca teoría. Sí, esta es una característica. Google es tu profesor de teoría. Una vez que termines tu facultad,
+la teoría en exceso es peor que "no tener teoría", porque eso hace que las cosas parezcan más difíciles de lo que realmente son.
+- Las lecciones son pequeñas y pueden tomar entre 5 y 15 minutos para completarse. Confía en mi y confía en ti. ¡Puedes hacerlo!
 
+Cómo utilizar este tutorial
+---------------------------
 
-How to use this tutorial
-------------------------
+1. Empieza con la primera carpeta y ve hacia abajo en orden. Los tutoriales se van construyendo sobre el código anterior,
+por lo que si saltas a la carpeta 05 y no entiendes por qué hay un `mov ah, 0x0e`, es porque te perdiste la lección 02.
+Simplemente sigue el orden. Siempre podrás saltar las cosas que ya sabés.
 
-1. Start with the first folder and go down in order. They build on previous code, so if 
-you jump right to folder 05 and don't know why there is a `mov ah, 0x0e`, it's because you missed lecture 02.
-Really, just go in order. You can always skip stuff you already know.
+2. Abre el archivo "README" y lee la primera línea, que detalla los conceptos con los que deberías estar familiarizado
+antes de leer el código. Busca en Google los conceptos que no te son familiares.
+La segunda línea indica el objetivo de cada lección. Léelos, porque ahí se explican por qué hacemos lo que hacemos.
+El "por qué" es tan importante como el "cómo".
 
-2. Open the README and read the first line, which details the concepts you should be familiar with
-before reading the code. Google concepts you are not familiar with. The second line states the goals for each lesson. 
-Read them, because they explain why we do what we do. The "why" is as important as the "how".
- 
-3. Read the rest of the README. It is **very concise**.
+3. Lee el resto del archivo README. Es **muy consizo**
 
-4. (Optional) Try to write the code files by yourself after reading the README.
+4. (Opcional) Intenta escribir los archivos de códigos tú mismo después de leer el README.
 
-5. Look at the code examples. They are extremely well commented.
+5. Mira los códigos de ejemplo. Están extremadamente bien documentados.
 
-6. (Optional) Experiment with them and try to break things. The only way to make sure you understood something is
-trying to break it or replicate it with different commands.
+6. (Opcional) Experimenta con los códigos e intenta romper cosas. La única forma de estar seguro que entendiste algo
+es intentando romper cosas o replicar cosas con diferentes comandos.
 
-
-TL;DR: First read the README on each folder, then the code files. If you're brave, try to code them yourself.
-
-
-Strategy
---------
-
-We will want to do many things with our OS:
-
-- Boot from scratch, without GRUB - DONE!
-- Enter 32-bit mode - DONE
-- Jump from Assembly to C - DONE!
-- Interrupt handling - DONE!
-- Screen output and keyboard input - DONE!
-- A tiny, basic `libc` which grows to suit our needs - DONE!
-- Memory management
-- Write a filesystem to store files
-- Create a very simple shell
-- User mode
-- Maybe we will write a simple text editor
-- Multiple processes and scheduling
-
-Probably we will go through them in that order, however it's soon to tell.
-
-If we feel brave enough:
-
-- A BASIC interpreter, like in the 70s!
-- A GUI
-- Networking
+TL;DR: Primero lee el README de cada carpeta, luego los archivos de código. Si te animas, intenta codificar tú mismo.
 
 
+Estrategia
+----------
 
-Contributing
-------------
+Intentaremos hacer varias cosas con nuestro Sistema Operativo:
 
-This is a personal learning project, and even though it hasn't been updated for a long time, I still have hopes to get into it at some point.
+- Arrancar desde cero, sin GRUB - LISTO!
+- Entrar al modo 32-bits - LISTO!
+- Saltar desde Ensamblador a C - LISTO!
+- Manejo de Interrupciones - LISTO!
+- Salida a pantalla e ingreso por teclado - LISTO!
+- Una pequeña y básica `libc` que vaya creciendo para satisfacer nuestras necesidades - LISTO!
+- Administración de memoria
+- Escribir un sistema de archivos
+- Crear un `shell` muy simple
+- Modo usuario
+- Puede que escribamos un editor de texto simple
+- Múltiples procesos y "calendarización" (scheduling) de procesos
 
-I'm thankful to all those who have pointed out bugs and submitted pull requests. I will need some time to review everything and I cannot guarantee that at this moment.
+Probablemente iremos en ese orden, aunque todavía no sabemos.
 
-Please feel free to fork this repo. If many of you are interested in continuing the project, let me know and I'll link the "main fork" from here.
+Si nos animamos, haremos:
+
+- Un intérprete del lenguaje BASIC, como en los años 70!
+- Una interfaz gráfica de usuario (GUI)
+- Redes
+
+
+Contribuciones
+--------------
+
+Este es un proyecto personal de aprendizaje y, aunque no ha sido actualizado por un largo tiempo, aún espero terminarlo en algún momento.
+
+Estoy agradecido a todos los que indicaron errores (bugs) y enviaron `pull requests`. Necesitaré algo de tiempo para revizar todo y no puedo garantizar eso en este momento.
+
+Siéntete libre en clonar este repositorio. Si muchos de ustedes están interesados en continuar el proyecto, háganme saber y enlazaré el "clon principal" desde aquí.
+
+* Notas de @luiscardozo: primeramente intentaré realizar una traducción "así como está". Si quieres contribuir, ya sea con una traducción "así como está", como con una mejora en mis traducciones, eres bienvenido.
